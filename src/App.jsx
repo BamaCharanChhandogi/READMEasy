@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import InputForm from './components/InputForm';
 import OutputDisplay from './components/OutputDisplay';
 import useReadmeGenerator from './hooks/useReadmeGenerator';
+import { FaGithub } from "react-icons/fa";
 
 function App() {
   const [projectInfo, setProjectInfo] = useState({
@@ -22,8 +23,22 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
+      <nav className="bg-gray-800 shadow-lg">
+        <div className="container mx-auto px-6 py-3 flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold text-purple-400">READMEasy</h1>
+            <p className="text-sm text-gray-400">Effortless README Generation</p>
+          </div>
+          <a href="https://github.com/BamaCharanChhandogi/READMEasy"
+             target="_blank"
+             rel="noopener noreferrer"
+             className="text-purple-400 hover:text-purple-300 transition duration-300"
+          >
+            <FaGithub className="w-8 h-8" />
+          </a>
+        </div>
+      </nav>
       <div className="container mx-auto px-4 py-12">
-        <h1 className="text-5xl font-bold mb-8 text-center text-purple-400">README Generator</h1>
         <div className="bg-gray-800 rounded-lg shadow-lg p-8 mb-8">
           <InputForm onSubmit={handleSubmit} />
         </div>
