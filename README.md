@@ -1,8 +1,8 @@
-# ReadMeister: AI-Powered README Generator
+# READMEasy: AI-Powered README Generator
 
 ## Introduction
 
-ReadMeister is a user-friendly web platform that empowers you to generate comprehensive and engaging README files for your software projects. Powered by advanced AI models, ReadMeister effortlessly tailors your README content based on your project's unique details.
+READMEasy is a user-friendly web platform that empowers you to generate comprehensive and engaging README files for your software projects. Powered by advanced AI models, ReadMeister effortlessly tailors your README content based on your project's unique details.
 
 ## Features
 
@@ -22,7 +22,7 @@ ReadMeister is a web-based platform and does not require any installation. Simpl
 
 To generate a README using ReadMeister:
 
-1. Visit our website at [ReadMeister.com](https://readmeister.com).
+1. Visit our website at [ReadMeister.com](https://READMEasy.ai).
 2. Fill out the interactive form with your project details.
 3. Choose which sections you want to include in your README.
 4. Preview your README in Markdown or rendered view.
