@@ -6,8 +6,10 @@ const useReadmeGenerator = ({ projectName, description, image, features, install
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [viewMode, setViewMode] = useState('markdown');
-  const MODEL_NAME = import.meta.env.VITE_MODEL_NAME;
-  const API_KEY = import.meta.env.VITE_API_KEY;
+  // const MODEL_NAME = import.meta.env.VITE_MODEL_NAME;
+  // const API_KEY = import.meta.env.VITE_API_KEY;
+  const MODEL_NAME = 'gemini-1.0-pro';
+  const API_KEY = 'AIzaSyAB3Bdey5tQ2x_PTa6qq6tuviIQUldDIbE';
 
   useEffect(() => {
     if (!projectName || !description) {
