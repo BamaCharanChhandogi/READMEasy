@@ -22,7 +22,7 @@ ReadMeister is a web-based platform and does not require any installation. Simpl
 
 To generate a README using ReadMeister:
 
-1. Visit our website at [ReadMeister.com](https://READMEasy.ai).
+1. Visit our website at [readm-easy](https://readm-easy.vercel.app/).
 2. Fill out the interactive form with your project details.
 3. Choose which sections you want to include in your README.
 4. Preview your README in Markdown or rendered view.
