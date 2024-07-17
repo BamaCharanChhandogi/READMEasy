@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import ProfileForm from "../components/ProfileForm";
 
 function GitHubProfileGenerator() {
   const [profileInfo, setProfileInfo] = useState({
@@ -78,13 +79,11 @@ function GitHubProfileGenerator() {
  <hr/>
  
 <h2 align="center">⚒️ Languages-Frameworks-Tools ⚒️</h2>
-<br/>
 <div align="center">
     <img src="https://skillicons.dev/icons?i=${profileInfo.languages},${
         profileInfo.frameworks
       },${profileInfo.tools}" />
 </div>
-<br/>
 <hr/>
 
 <h2 align="center">⚡ Stats ⚡</h2>
@@ -149,50 +148,31 @@ ${
         GitHub Profile README Generator
         <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-purple-400 to-pink-500 transform origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></span>
       </h2>
-      <form className="space-y-4">
-        {Object.entries(profileInfo).map(([key, value]) => (
-          <div key={key}>
-            <label
-              htmlFor={key}
-              className="block text-sm font-medium text-purple-300 mb-1 capitalize"
-            >
-              {key.replace(/([A-Z])/g, " $1").trim()}
-            </label>
-            <input
-              type="text"
-              id={key}
-              name={key}
-              value={value}
-              onChange={handleChange}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
-            />
-          </div>
-        ))}
-        <div className="flex items-center">
-          <label
-            htmlFor="hasQuineAccount"
-            className="text-sm font-medium text-purple-300 mr-2"
-          >
-            Do you have a Quine account? (for dependencies graph)
-          </label>
-          <select
-            id="hasQuineAccount"
-            value={hasQuineAccount ? "yes" : "no"}
-            onChange={(e) => setHasQuineAccount(e.target.value === "yes")}
-            className="bg-gray-700 border border-gray-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 px-2 py-1"
-          >
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
-          </select>
-        </div>
-        <button
-          type="button"
-          onClick={generateProfile}
-          className="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition duration-300"
+      <ProfileForm profileInfo={profileInfo} handleChange={handleChange} />
+      <div className="flex items-center my-5">
+        <label
+          htmlFor="hasQuineAccount"
+          className="text-sm font-medium text-purple-300 mr-2"
         >
-          Generate Profile README
-        </button>
-      </form>
+          Do you have a Quine account? (for dependencies graph)
+        </label>
+        <select
+          id="hasQuineAccount"
+          value={hasQuineAccount ? "yes" : "no"}
+          onChange={(e) => setHasQuineAccount(e.target.value === "yes")}
+          className="bg-gray-700 border border-gray-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 px-2 py-1"
+        >
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+      <button
+        type="button"
+        onClick={generateProfile}
+        className="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition duration-300"
+      >
+        Generate Profile README
+      </button>
       {isLoading && (
         <p className="text-purple-400 mt-4">Generating profile README...</p>
       )}
