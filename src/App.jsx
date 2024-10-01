@@ -9,12 +9,12 @@ function App() {
     <Router>
       <div className="min-h-screen bg-gray-900 text-white">
         <nav className="bg-gray-800 shadow-lg">
-          <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-            <Link to="/" className="text-3xl font-bold text-purple-400 hover:text-purple-300 transition duration-300">
+          <div className="container mx-auto sm:px-6 py-4 px-2  flex justify-between items-center">
+            <Link to="/" className="sm:text-3xl text-base font-bold text-purple-400 hover:text-purple-300 transition duration-300">
               READMEasy
             </Link>
             <div className="flex items-center space-x-8">
-              <div className="flex space-x-6">
+              <div className="sm:text-lg text-xs flex sm:space-x-6 space-x-2">
                 <NavLink 
                   to="/" 
                   className={({ isActive }) => 
