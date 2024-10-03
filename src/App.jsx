@@ -4,6 +4,7 @@ import { FaGithub } from "react-icons/fa";
 import Home from './components/Home';
 import GitHubProfileGenerator from './hooks/GitHubProfileGenerator';
 import Navbar from './components/Navbar';
+
 function App() {
   return (
     <Router>
