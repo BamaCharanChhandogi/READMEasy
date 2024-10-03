@@ -143,52 +143,52 @@ ${
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg shadow-lg p-8 mb-8">
-      <h2 className="text-2xl font-bold text-purple-400 mb-7 inline-block relative overflow-hidden group">
+    <div className='bg-gray-800 rounded-lg shadow-lg p-8 mb-8'>
+      <h2 className='text-2xl font-bold text-purple-400 mb-7 inline-block relative overflow-hidden group'>
         GitHub Profile README Generator
-        <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-purple-400 to-pink-500 transform origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></span>
+        <span className='absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-purple-400 to-pink-500 transform origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100'></span>
       </h2>
       <ProfileForm profileInfo={profileInfo} handleChange={handleChange} />
-      <div className="flex items-center my-5">
+      <div className='flex items-center my-5'>
         <label
-          htmlFor="hasQuineAccount"
-          className="text-sm font-medium text-purple-300 mr-2"
+          htmlFor='hasQuineAccount'
+          className='text-sm font-medium text-purple-300 mr-2'
         >
           Do you have a Quine account? (for dependencies graph)
         </label>
         <select
-          id="hasQuineAccount"
+          id='hasQuineAccount'
           value={hasQuineAccount ? "yes" : "no"}
           onChange={(e) => setHasQuineAccount(e.target.value === "yes")}
-          className="bg-gray-700 border border-gray-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 px-2 py-1"
+          className='bg-gray-700 border border-gray-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 px-2 py-1'
         >
-          <option value="no">No</option>
-          <option value="yes">Yes</option>
+          <option value='no'>No</option>
+          <option value='yes'>Yes</option>
         </select>
       </div>
       <button
-        type="button"
+        type='button'
         onClick={generateProfile}
-        className="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition duration-300"
+        className='w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition duration-300'
       >
         Generate Profile README
       </button>
       {isLoading && (
-        <p className="text-purple-400 mt-4">Generating profile README...</p>
+        <p className='text-purple-400 mt-4'>Generating profile README...</p>
       )}
-      {error && <p className="text-red-400 mt-4">{error}</p>}
+      {error && <p className='text-red-400 mt-4'>{error}</p>}
       {generatedProfile && (
-        <div className="mt-8 relative">
-          <h3 className="text-xl font-bold text-purple-400 mb-2">
+        <div className='mt-8 relative'>
+          <h3 className='text-xl font-bold text-purple-400 mb-2'>
             Generated Profile README
           </h3>
           <button
             onClick={copyToClipboard}
-            className="absolute top-0 right-0 bg-green-500 text-white py-1 px-3 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition duration-300"
+            className='absolute top-0 right-0 bg-green-500 text-white py-1 px-3 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition duration-300'
           >
             {copied ? "Copied!" : "Copy"}
           </button>
-          <pre className="bg-gray-700 p-4 rounded-lg text-white whitespace-pre-wrap">
+          <pre className='bg-gray-700 p-4 rounded-lg text-white whitespace-pre-wrap'>
             {generatedProfile}
           </pre>
         </div>
