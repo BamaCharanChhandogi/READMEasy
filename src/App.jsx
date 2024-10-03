@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Link,
-  NavLink,
-} from "react-router-dom";
+import React, { useState, Suspense, lazy, memo } from "react";
+import { BrowserRouter as Router, Route, Routes, Link, NavLink } from "react-router-dom";
 import { FaGithub, FaSun, FaMoon } from "react-icons/fa";
-import Home from "./components/Home";
-import GitHubProfileGenerator from "./hooks/GitHubProfileGenerator";
+
+const Home = lazy(() => import('./components/Home'));
+const GitHubProfileGenerator = lazy(() => import('./hooks/GitHubProfileGenerator'));
+
+const MemoizedHome = memo(Home);
+const MemoizedGitHubProfileGenerator = memo(GitHubProfileGenerator);
+
+const getNavLinkClass = ({ isActive }) => 
+  isActive ? "text-purple-400 font-semibold" : "text-gray-300 hover:text-purple-400 transition duration-300";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -38,28 +39,10 @@ function App() {
             >
               READMEasy
             </Link>
-            <div className='flex items-center space-x-8'>
-              <div className='flex space-x-6'>
-                <NavLink
-                  to='/'
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-purple-400 font-semibold"
-                      : "text-gray-300 hover:text-purple-400 transition duration-300"
-                  }
-                >
-                  Home
-                </NavLink>
-                <NavLink
-                  to='/profileGenerator'
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-purple-400 font-semibold"
-                      : "text-gray-300 hover:text-purple-400 transition duration-300"
-                  }
-                >
-                  Profile Generator
-                </NavLink>
+            <div className="flex items-center space-x-8">
+              <div className="flex space-x-6">
+                <NavLink to="/" className={getNavLinkClass}>Home</NavLink>
+                <NavLink to="/profileGenerator" className={getNavLinkClass}>Profile Generator</NavLink>
               </div>
               <button
                 onClick={toggleTheme}
@@ -82,14 +65,13 @@ function App() {
             </div>
           </div>
         </nav>
-        <div className='container mx-auto px-4 py-12'>
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route
-              path='/profileGenerator'
-              element={<GitHubProfileGenerator />}
-            />
-          </Routes>
+        <div className="container mx-auto px-4 py-12">
+          <Suspense fallback={<div>Loading...</div>}>
+            <Routes>
+              <Route path="/" element={<MemoizedHome />} />
+              <Route path="/profileGenerator" element={<MemoizedGitHubProfileGenerator />} />
+            </Routes>
+          </Suspense>
         </div>
       </div>
     </Router>
