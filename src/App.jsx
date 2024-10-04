@@ -17,7 +17,7 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen bg-gray-900 text-white">
-       <Navbar></Navbar>
+       <Navbar/>
         <div className="container mx-auto px-4 py-12">
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
