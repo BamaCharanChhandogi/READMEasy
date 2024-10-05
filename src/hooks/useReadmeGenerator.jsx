@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const useReadmeGenerator = ({ projectName, description, image, features, installation, usage, contributing, license }) => {
+const useReadmeGenerator = ({
+  projectName,
+  description,
+  image,
+  features,
+  installation,
+  usage,
+  contributing,
+  license,
+}) => {
   const [readmeContent, setReadmeContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [viewMode, setViewMode] = useState('markdown');
+  const [viewMode, setViewMode] = useState("markdown");
   const MODEL_NAME = import.meta.env.VITE_MODEL_NAME;
   const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -19,13 +28,17 @@ const useReadmeGenerator = ({ projectName, description, image, features, install
       setError(null);
 
       if (!API_KEY) {
-        setError("API key is missing. Please check your environment variables.");
+        setError(
+          "API key is missing. Please check your environment variables."
+        );
         setIsLoading(false);
         return;
       }
 
       if (!MODEL_NAME) {
-        setError("Model name is missing. Please check your environment variables.");
+        setError(
+          "Model name is missing. Please check your environment variables."
+        );
         setIsLoading(false);
         return;
       }
@@ -34,20 +47,23 @@ const useReadmeGenerator = ({ projectName, description, image, features, install
         const genAI = new GoogleGenerativeAI(API_KEY);
         const model = genAI.getGenerativeModel({ model: MODEL_NAME });
 
-        let prompt = `Generate a comprehensive README.md file for a project named "${projectName}" with the following description: "${description}". Include sections for introduction, features, installation, usage, and contribution guidelines.`;
+        let prompt = `Generate a comprehensive README.md file for a project named "${projectName}" with the following description: "${description}".`;
 
         if (image) {
           prompt += ` Include the following image in the README: ${image}`;
         }
 
         if (features) prompt += ` The features are: ${features}`;
-        if (installation) prompt += ` The installation instructions are: ${installation}`;
+        if (installation)
+          prompt += ` The installation instructions are: ${installation}`;
         if (usage) prompt += ` The usage instructions are: ${usage}`;
-        if (contributing) prompt += ` The contribution guidelines are: ${contributing}`;
+        if (contributing)
+          prompt += ` The contribution guidelines are: ${contributing}`;
         if (license) prompt += ` The license is: ${license}`;
+        prompt += ` Do not include extra content other than the sections and information provided. Do not infer or generate any additional details or heading. Only use the provided data.`;
 
         const result = await model.generateContent(prompt);
-        
+
         const response = await result.response;
         setReadmeContent(response.text());
       } catch (error) {
@@ -59,13 +75,30 @@ const useReadmeGenerator = ({ projectName, description, image, features, install
     };
 
     generateReadme();
-  }, [projectName, description, image, features, installation, usage, contributing, license]);
+  }, [
+    projectName,
+    description,
+    image,
+    features,
+    installation,
+    usage,
+    contributing,
+    license,
+  ]);
 
   const toggleViewMode = () => {
-    setViewMode(prevMode => prevMode === 'markdown' ? 'rendered' : 'markdown');
+    setViewMode((prevMode) =>
+      prevMode === "markdown" ? "rendered" : "markdown"
+    );
   };
 
-  return { formattedReadme: readmeContent, isLoading, error, viewMode, toggleViewMode };
+  return {
+    formattedReadme: readmeContent,
+    isLoading,
+    error,
+    viewMode,
+    toggleViewMode,
+  };
 };
 
 export default useReadmeGenerator;
