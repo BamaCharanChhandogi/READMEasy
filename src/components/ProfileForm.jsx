@@ -2,19 +2,29 @@
 import React, { useState } from 'react';
 
 function ProfileForm({ profileInfo, handleChange }) {
+  const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [showCustomInput, setShowCustomInput] = useState(false);
 
   const popularLanguages = ['JavaScript', 'Python', 'Java', 'C++', 'Ruby', 'Go'];
 
   const handleDropdownChange = (e) => {
-    const value = e.target.value;
-    if (value === 'Other') {
+    const options = Array.from(e.target.selectedOptions);
+    const values = options.map(option => option.value);
+
+    if (values.includes('Other')) {
       setShowCustomInput(true);
-      handleChange({ target: { name: 'languages', value: '' } }); // Clear languages field for custom input
     } else {
       setShowCustomInput(false);
-      handleChange({ target: { name: 'languages', value: value } });
     }
+
+    setSelectedLanguages(values.filter(value => value !== 'Other'));
+    handleChange({ target: { name: 'languages', value: values } });
+  };
+
+  const handleCustomLanguageChange = (e) => {
+    const value = e.target.value;
+    const newLanguages = [...selectedLanguages, value];
+    handleChange({ target: { name: 'languages', value: newLanguages } });
   };
 
   return (
@@ -161,11 +171,11 @@ function ProfileForm({ profileInfo, handleChange }) {
         <select
           id="languages"
           name="languages"
-          value={showCustomInput ? 'Other' : profileInfo.languages}
+          multiple
+          value={showCustomInput ? [...selectedLanguages, 'Other'] : selectedLanguages}
           onChange={handleDropdownChange}
           className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
         >
-          <option value="">Select a language</option>
           {popularLanguages.map((language, index) => (
             <option key={index} value={language}>
               {language}
@@ -177,10 +187,9 @@ function ProfileForm({ profileInfo, handleChange }) {
         {showCustomInput && (
           <input
             type="text"
-            id="languages"
-            name="languages"
-            value={profileInfo.languages}
-            onChange={handleChange}
+            id="customLanguage"
+            name="customLanguage"
+            onChange={handleCustomLanguageChange}
             placeholder="Enter custom language"
             className="w-full px-3 py-2 mt-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
           />
