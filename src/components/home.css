@@ -1,0 +1,74 @@
+.home-container {
+    background: linear-gradient(to right, #f0f4f8, #e4e9f0);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  .animate-fadeIn {
+    animation: fadeIn 1s ease-in;
+  }
+  
+  .animate-slideIn {
+    animation: slideIn 0.5s ease-in forwards;
+  }
+  
+  .animate-bounce {
+    animation: bounce 1s infinite;
+  }
+  
+  /* Additional styles for the list items or any other elements can be added here */
+  
+  /* Animation styles */
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  @keyframes slideIn {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  
+  .animate-slideIn {
+    animation: slideIn 0.5s ease-in-out;
+  }
+  
+  /* Other styles for spacing */
+  .home-container {
+    padding: 20px;
+  }
+  
