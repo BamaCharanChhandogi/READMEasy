@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function InputForm({ onSubmit }) {
   const [projectInfo, setProjectInfo] = useState({
@@ -11,12 +11,22 @@ function InputForm({ onSubmit }) {
     license: '',
   });
 
+  const [errors, setErrors] = useState({});
+
   const handleChange = (e) => {
     setProjectInfo({ ...projectInfo, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: '' });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const newErrors = {};
+    if (!projectInfo.projectName) newErrors.projectName = 'Project Name is required';
+    if (!projectInfo.description) newErrors.description = 'Description is required';
+    if (Object.keys(newErrors).length) {
+      setErrors(newErrors);
+      return;
+    }
     onSubmit(projectInfo);
   };
 
@@ -24,17 +34,9 @@ function InputForm({ onSubmit }) {
     <form onSubmit={handleSubmit} className="space-y-6">
       {Object.entries(projectInfo).map(([key, value]) => (
         <div key={key}>
-         {
-          key=='projectName' || key=='description' ?(
-            <label htmlFor={key} className="block text-sm font-medium text-purple-300 mb-1 capitalize">
-            {key.replace(/([A-Z])/g, ' $1').trim()}
+          <label htmlFor={key} className="block text-sm font-medium text-purple-300 mb-1 capitalize">
+            {key.replace(/([A-Z])/g, ' $1').trim()} {key !== 'projectName' && key !== 'description' ? '(Optional)' : ''}
           </label>
-          ):(
-            <label htmlFor={key} className="block text-sm font-medium text-purple-300 mb-1 capitalize">
-            {key.replace(/([A-Z])/g, ' $1').trim()} (Optional)
-          </label>
-          )
-         }
           {key === 'description' || key === 'features' || key === 'installation' || key === 'usage' || key === 'contributing' ? (
             <textarea
               id={key}
@@ -56,6 +58,7 @@ function InputForm({ onSubmit }) {
               className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
             />
           )}
+          {errors[key] && <p className="text-red-500 text-sm mt-1">{errors[key]}</p>}
         </div>
       ))}
       <button
