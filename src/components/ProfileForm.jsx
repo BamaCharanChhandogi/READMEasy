@@ -1,20 +1,46 @@
 // ProfileForm.jsx
-import React from 'react';
+import React, { useState } from 'react';
 
 function ProfileForm({ profileInfo, handleChange }) {
   const popularLanguages = ['Python', 'C++', 'Java', 'HTML', CSS', 'Bootstrap', 'JavaScript', 'NodeJS', 'ReactJS', 'MongoDB'];
+  
+  const [selectedLanguages, setSelectedLanguages] = useState(profileInfo.languages || []);
+  const [customLanguage, setCustomLanguage] = useState('');
 
   const handleCheckboxChange = (e) => {
-    const { value, checked } = e.target;
-    const newLanguages = checked
-      ? [...profileInfo.languages, value]
-      : profileInfo.languages.filter(language => language !== value);
+    const value = e.target.value;
+    if (value === 'Other') {
+      setCustomLanguage('');
+      if (!selectedLanguages.includes(value)) {
+        setSelectedLanguages([...selectedLanguages, value]);
+      }
+    } else {
+      if (selectedLanguages.includes(value)) {
+        setSelectedLanguages(selectedLanguages.filter(lang => lang !== value));
+      } else {
+        setSelectedLanguages([...selectedLanguages, value]);
+      }
+    }
+  };
 
-    handleChange({ target: { name: 'languages', value: newLanguages } });
+  const handleCustomLanguageChange = (e) => {
+    setCustomLanguage(e.target.value);
+  };
+
+  const handleAddCustomLanguage = () => {
+    if (customLanguage && !selectedLanguages.includes(customLanguage)) {
+      setSelectedLanguages([...selectedLanguages, customLanguage]);
+      setCustomLanguage('');
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleChange({ target: { name: 'languages', value: selectedLanguages } });
   };
 
   return (
-    <form className="space-y-4 mb-2">
+    <form className="space-y-4 mb-2" onSubmit={handleSubmit}>
       <div>
         <label htmlFor="name" className="block text-sm font-medium text-purple-300 mb-1">
           Name
@@ -151,27 +177,38 @@ function ProfileForm({ profileInfo, handleChange }) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-purple-300 mb-1">
-          Languages
-        </label>
-        <div className="space-y-2">
-          {popularLanguages.map((language, index) => (
-            <div key={index} className="flex items-center">
-              <input
-                type="checkbox"
-                id={`language-${index}`}
-                name="languages"
-                value={language}
-                checked={profileInfo.languages.includes(language)}
-                onChange={handleCheckboxChange}
-                className="h-4 w-4 text-purple-500 border-gray-300 rounded focus:ring-purple-400"
-              />
-              <label htmlFor={`language-${index}`} className="ml-2 block text-white">
-                {language}
-              </label>
-            </div>
-          ))}
-        </div>
+        <label className="block text-sm font-medium text-purple-300 mb-1">Languages</label>
+        {popularLanguages.map((language) => (
+          <div key={language} className="flex items-center mb-2">
+            <input
+              type="checkbox"
+              value={language}
+              checked={selectedLanguages.includes(language)}
+              onChange={handleCheckboxChange}
+              className="mr-2 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+            />
+            <label className="text-gray-300">{language}</label>
+          </div>
+        ))}
+
+        {selectedLanguages.includes('Other') && (
+          <div className="mt-2">
+            <input
+              type="text"
+              value={customLanguage}
+              onChange={handleCustomLanguageChange}
+              placeholder="Enter custom language"
+              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
+            />
+            <button
+              type="button"
+              onClick={handleAddCustomLanguage}
+              className="mt-2 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
+            >
+              Add Language
+            </button>
+          </div>
+        )}
       </div>
 
       <div>
@@ -203,6 +240,13 @@ function ProfileForm({ profileInfo, handleChange }) {
           className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
         />
       </div>
+      
+      <button
+        type="submit"
+        className="mt-4 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
+      >
+        Submit
+      </button>
     </form>
   );
 }
