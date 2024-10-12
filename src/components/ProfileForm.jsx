@@ -1,29 +1,15 @@
 // ProfileForm.jsx
-import React, { useState } from 'react';
+import React from 'react';
 
 function ProfileForm({ profileInfo, handleChange }) {
-  const [selectedLanguages, setSelectedLanguages] = useState([]);
-  const [showCustomInput, setShowCustomInput] = useState(false);
+  const popularLanguages = ['Python', 'C++', 'Java', 'HTML', CSS', 'Bootstrap', 'JavaScript', 'NodeJS', 'ReactJS', 'MongoDB'];
 
-  const popularLanguages = ['JavaScript', 'Python', 'Java', 'C++', 'Ruby', 'Go'];
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    const newLanguages = checked
+      ? [...profileInfo.languages, value]
+      : profileInfo.languages.filter(language => language !== value);
 
-  const handleDropdownChange = (e) => {
-    const options = Array.from(e.target.selectedOptions);
-    const values = options.map(option => option.value);
-
-    if (values.includes('Other')) {
-      setShowCustomInput(true);
-    } else {
-      setShowCustomInput(false);
-    }
-
-    setSelectedLanguages(values.filter(value => value !== 'Other'));
-    handleChange({ target: { name: 'languages', value: values } });
-  };
-
-  const handleCustomLanguageChange = (e) => {
-    const value = e.target.value;
-    const newLanguages = [...selectedLanguages, value];
     handleChange({ target: { name: 'languages', value: newLanguages } });
   };
 
@@ -165,35 +151,27 @@ function ProfileForm({ profileInfo, handleChange }) {
       </div>
 
       <div>
-        <label htmlFor="languages" className="block text-sm font-medium text-purple-300 mb-1">
+        <label className="block text-sm font-medium text-purple-300 mb-1">
           Languages
         </label>
-        <select
-          id="languages"
-          name="languages"
-          multiple
-          value={showCustomInput ? [...selectedLanguages, 'Other'] : selectedLanguages}
-          onChange={handleDropdownChange}
-          className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white"
-        >
+        <div className="space-y-2">
           {popularLanguages.map((language, index) => (
-            <option key={index} value={language}>
-              {language}
-            </option>
+            <div key={index} className="flex items-center">
+              <input
+                type="checkbox"
+                id={`language-${index}`}
+                name="languages"
+                value={language}
+                checked={profileInfo.languages.includes(language)}
+                onChange={handleCheckboxChange}
+                className="h-4 w-4 text-purple-500 border-gray-300 rounded focus:ring-purple-400"
+              />
+              <label htmlFor={`language-${index}`} className="ml-2 block text-white">
+                {language}
+              </label>
+            </div>
           ))}
-          <option value="Other">Other</option>
-        </select>
-
-        {showCustomInput && (
-          <input
-            type="text"
-            id="customLanguage"
-            name="customLanguage"
-            onChange={handleCustomLanguageChange}
-            placeholder="Enter custom language"
-            className="w-full px-3 py-2 mt-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
-          />
-        )}
+        </div>
       </div>
 
       <div>
