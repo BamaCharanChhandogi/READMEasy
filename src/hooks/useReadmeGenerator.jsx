@@ -15,6 +15,7 @@ const useReadmeGenerator = ({ projectName, description, image, features, install
     }
 
     const generateReadme = async () => {
+      setReadmeContent("");
       setIsLoading(true);
       setError(null);
 
