@@ -2,18 +2,32 @@
 import React, { useState } from 'react';
 
 function ProfileForm({ profileInfo, handleChange }) {
-  const [selectedLanguages, setSelectedLanguages] = useState([]);
+  // State variables for form fields
+  const [name, setName] = useState(profileInfo.name || '');
+  const [title, setTitle] = useState(profileInfo.title || '');
+  const [currentWork, setCurrentWork] = useState(profileInfo.currentWork || '');
+  const [learning, setLearning] = useState(profileInfo.learning || '');
+  const [askMeAbout, setAskMeAbout] = useState(profileInfo.askMeAbout || '');
+  const [email, setEmail] = useState(profileInfo.email || '');
+  const [linkedin, setLinkedin] = useState(profileInfo.linkedin || '');
+  const [portfolio, setPortfolio] = useState(profileInfo.portfolio || '');
+  const [githubUsername, setGithubUsername] = useState(profileInfo.githubUsername || '');
+
+  // State variables for language selection
+  const [selectedLanguages, setSelectedLanguages] = useState(profileInfo.languages || []);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [otherLanguage, setOtherLanguage] = useState('');
   const [isOtherChecked, setIsOtherChecked] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Controls dropdown visibility
 
-  const popularLanguages = ['Python', 'C++', 'Java', 'HTML', 'CSS', 'Bootstrap', 'JavaScript', 'NodeJS', 'ReactJS', 'MongoDB'];
+  // Popular languages (replace with your desired languages)
+  const popularLanguages = ['Python', 'C++', 'Java', 'HTML', 'CSS', 'JavaScript', 'ReactJS', 'NodeJS', 'MongoDB'];
 
+  // Function to toggle the dropdown visibility
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  // Toggle a language from the selection
+  // Function to handle language selection
   const handleLanguageSelect = (language) => {
     setSelectedLanguages((prevSelected) =>
       prevSelected.includes(language)
@@ -22,7 +36,7 @@ function ProfileForm({ profileInfo, handleChange }) {
     );
   };
 
-  // Handle "Other" input checkbox and text input
+  // Function to handle "Other" checkbox input and text input
   const handleOtherInput = () => {
     setIsOtherChecked(!isOtherChecked);
     if (!isOtherChecked) {
@@ -30,7 +44,7 @@ function ProfileForm({ profileInfo, handleChange }) {
     }
   };
 
-  // Remove a language from the selected list
+  // Function to remove a language from the selected list
   const handleRemoveLanguage = (language) => {
     if (language === otherLanguage) {
       setOtherLanguage('');
@@ -39,7 +53,7 @@ function ProfileForm({ profileInfo, handleChange }) {
     setSelectedLanguages((prevSelected) => prevSelected.filter((lang) => lang !== language));
   };
 
-  // Handle other language input field
+  // Function to handle other language input
   const handleOtherLanguageInput = (e) => {
     setOtherLanguage(e.target.value);
     if (!selectedLanguages.includes(e.target.value)) {
@@ -47,13 +61,23 @@ function ProfileForm({ profileInfo, handleChange }) {
     }
   };
 
-  // Handle form submit
+  // Function to handle form submission (replace with your logic)
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Combine selectedLanguages into profileInfo for form submission
-    const updatedProfileInfo = { ...profileInfo, languages: selectedLanguages };
-    // Perform form submission with updatedProfileInfo
-    console.log(updatedProfileInfo);
+    const updatedProfileInfo = {
+      name,
+      title,
+      currentWork,
+      learning,
+      askMeAbout,
+      email,
+      linkedin,
+      portfolio,
+      githubUsername,
+      languages: selectedLanguages,
+    };
+    handleChange(updatedProfileInfo); // Pass updated info to the parent component
+    console.log('Form submitted:', updatedProfileInfo); // Optional: Log for debugging
   };
 
   return (
@@ -66,9 +90,9 @@ function ProfileForm({ profileInfo, handleChange }) {
           type="text"
           id="name"
           name="name"
-          value={profileInfo.name}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           placeholder="e.g. John Doe"
-          onChange={handleChange}
           className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
         />
       </div>
@@ -194,17 +218,16 @@ function ProfileForm({ profileInfo, handleChange }) {
       </div>
 
       {/* Language selector */}
-      <div className="w-full max-w-md mx-auto mt-8">
-        <label className="block font-semibold mb-2">Languages:</label>
+      <div>
+        <label htmlFor="languages" className="block text-sm font-medium text-purple-300 mb-1">
+          Languages:
+        </label>
 
         {/* Display selected languages with cross to remove */}
         <div className="flex flex-wrap gap-2 items-center border p-2 rounded-md cursor-pointer" onClick={toggleDropdown}>
           {selectedLanguages.length > 0 ? (
             selectedLanguages.map((language, idx) => (
-              <div
-                key={idx}
-                className="bg-green-200 px-2 py-1 rounded-full flex items-center gap-1"
-              >
+              <div key={idx} className="bg-green-200 px-2 py-1 rounded-full flex items-center gap-1">
                 {language}
                 <button onClick={(e) => { e.stopPropagation(); handleRemoveLanguage(language); }}>
                   &times;
@@ -231,11 +254,7 @@ function ProfileForm({ profileInfo, handleChange }) {
             ))}
             {/* "Other" option with input */}
             <div className="flex items-center space-x-2 mt-2">
-              <input
-                type="checkbox"
-                checked={isOtherChecked}
-                onChange={handleOtherInput}
-              />
+              <input type="checkbox" checked={isOtherChecked} onChange={handleOtherInput} />
               <label>Other</label>
               {isOtherChecked && (
                 <input
@@ -251,12 +270,35 @@ function ProfileForm({ profileInfo, handleChange }) {
         )}
       </div>
 
-      <button
-        type="submit"
-        className="mt-4 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
-      >
-        Submit
-      </button>
+      <div>
+        <label htmlFor="frameworks" className="block text-sm font-medium text-purple-300 mb-1">
+          Frameworks
+        </label>
+        <input
+          type="text"
+          id="frameworks"
+          name="frameworks"
+          value={profileInfo.frameworks}
+          onChange={handleChange}
+          placeholder="e.g. react,nodejs,express"
+          className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="tools" className="block text-sm font-medium text-purple-300 mb-1">
+          Tools
+        </label>
+        <input
+          type="text"
+          id="tools"
+          name="tools"
+          value={profileInfo.tools}
+          onChange={handleChange}
+          placeholder="e.g. git,docker,vscode"
+          className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
+        />
+      </div>
     </form>
   );
 }
