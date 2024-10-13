@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import ReactMarkdown from 'react-markdown';
 
 const EditableOutput = ({ content, onSave }) => {
   const [editableContent, setEditableContent] = useState(content);
@@ -14,7 +13,7 @@ const EditableOutput = ({ content, onSave }) => {
   };
 
   const handleCancel = () => {
-    setEditableContent(content);
+    onSave(content);
     setIsEditing(false);
   };
 
