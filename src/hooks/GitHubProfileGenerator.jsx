@@ -23,6 +23,7 @@ function GitHubProfileGenerator() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [viewMode, setViewMode] = useState('markdown'); // New state for view mode
 
   const handleChange = (e) => {
     setProfileInfo({ ...profileInfo, [e.target.name]: e.target.value });
@@ -31,6 +32,7 @@ function GitHubProfileGenerator() {
   const generateProfile = async () => {
     setIsLoading(true);
     setError(null);
+    
 
     const API_KEY = import.meta.env.VITE_API_KEY;
     const MODEL_NAME = import.meta.env.VITE_MODEL_NAME;
@@ -44,6 +46,7 @@ function GitHubProfileGenerator() {
     try {
       const genAI = new GoogleGenerativeAI(API_KEY);
       const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+
 
       const template = `
 <img align="right" src="https://visitor-badge.laobi.icu/badge?page_id=${
@@ -124,6 +127,7 @@ ${
   
   Please fill in the template with the provided information. Do not add any additional sections. Stick strictly to the provided template structure.`;
 
+
       const result = await model.generateContent(prompt);
       const response = await result.response;
       setGeneratedProfile(response.text());
@@ -140,6 +144,10 @@ ${
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
+  };
+
+  const toggleViewMode = () => {
+    setViewMode(prevMode => (prevMode === 'markdown' ? 'rendered' : 'markdown'));
   };
 
   return (
@@ -182,15 +190,30 @@ ${
           <h3 className="text-xl font-bold text-purple-400 mb-2">
             Generated Profile README
           </h3>
-          <button
-            onClick={copyToClipboard}
-            className="absolute top-0 right-0 bg-green-500 text-white py-1 px-3 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition duration-300"
-          >
-            {copied ? "Copied!" : "Copy"}
-          </button>
-          <pre className="bg-gray-700 p-4 rounded-lg text-white whitespace-pre-wrap">
-            {generatedProfile}
-          </pre>
+          <div className="flex justify-between">
+            <button
+              onClick={toggleViewMode}
+              className="bg-blue-600 text-white py-1 px-3 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300"
+            >
+              Switch to {viewMode === 'markdown' ? 'Rendered' : 'Markdown'} View
+            </button>
+            <button
+              onClick={copyToClipboard}
+              className="bg-green-600 text-white py-1 px-3 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300"
+            >
+              Copy to Clipboard
+            </button>
+            {copied && (
+              <span className="text-green-400 ml-2">Copied!</span>
+            )}
+          </div>
+          {viewMode === 'markdown' ? (
+            <pre className="bg-gray-700 p-4 rounded-lg text-white whitespace-pre-wrap">
+              {generatedProfile}
+            </pre>
+          ) : (
+            <div className="bg-gray-700 p-4 rounded-lg text-white" dangerouslySetInnerHTML={{ __html: generatedProfile }} />
+          )}
         </div>
       )}
     </div>
