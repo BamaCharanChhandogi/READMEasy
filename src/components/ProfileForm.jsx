@@ -2,41 +2,47 @@
 import React, { useState } from 'react';
 
 function ProfileForm({ profileInfo, handleChange }) {
-  const popularLanguages = ['Python', 'C++', 'Java', 'HTML', CSS', 'Bootstrap', 'JavaScript', 'NodeJS', 'ReactJS', 'MongoDB'];
+  const LanguageSelector = () => {
+    const popularLanguages = ['Python', 'C++', 'Java', 'HTML', CSS', 'Bootstrap', 'JavaScript', 'NodeJS', 'ReactJS', 'MongoDB']; 
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Controls dropdown visibility
+    const [selectedLanguages, setSelectedLanguages] = useState([]); // Stores selected languages
+    const [otherLanguage, setOtherLanguage] = useState(""); // Stores custom language input
+    const [isOtherChecked, setIsOtherChecked] = useState(false); // Tracks if "Other" is selected
   
-  const [selectedLanguages, setSelectedLanguages] = useState(profileInfo.languages || []);
-  const [customLanguage, setCustomLanguage] = useState('');
-
-  const handleCheckboxChange = (e) => {
-    const value = e.target.value;
-    if (value === 'Other') {
-      setCustomLanguage('');
-      if (!selectedLanguages.includes(value)) {
-        setSelectedLanguages([...selectedLanguages, value]);
+    const toggleDropdown = () => {
+      setIsDropdownOpen(!isDropdownOpen);
+    };
+  
+    // Toggle a language from the selection
+    const handleLanguageSelect = (language) => {
+      setSelectedLanguages((prevSelected) =>
+        prevSelected.includes(language) ? prevSelected.filter((lang) => lang !== language) : [...prevSelected, language]
+      );
+    };
+  
+    // Handle "Other" input checkbox and text input
+    const handleOtherInput = (e) => {
+      setIsOtherChecked(!isOtherChecked);
+      if (!isOtherChecked) {
+        setOtherLanguage("");
       }
-    } else {
-      if (selectedLanguages.includes(value)) {
-        setSelectedLanguages(selectedLanguages.filter(lang => lang !== value));
-      } else {
-        setSelectedLanguages([...selectedLanguages, value]);
+    };
+  
+    // Remove a language from the selected list
+    const handleRemoveLanguage = (language) => {
+      if (language === otherLanguage) {
+        setOtherLanguage("");
+        setIsOtherChecked(false);
       }
-    }
-  };
-
-  const handleCustomLanguageChange = (e) => {
-    setCustomLanguage(e.target.value);
-  };
-
-  const handleAddCustomLanguage = () => {
-    if (customLanguage && !selectedLanguages.includes(customLanguage)) {
-      setSelectedLanguages([...selectedLanguages, customLanguage]);
-      setCustomLanguage('');
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleChange({ target: { name: 'languages', value: selectedLanguages } });
+      setSelectedLanguages((prevSelected) => prevSelected.filter((lang) => lang !== language));
+    };
+  
+    // Handle other language input field
+    const handleOtherLanguageInput = (e) => {
+      setOtherLanguage(e.target.value);
+      if (!selectedLanguages.includes(e.target.value)) {
+        setSelectedLanguages([...selectedLanguages, e.target.value]);
+      }
   };
 
   return (
@@ -176,40 +182,62 @@ function ProfileForm({ profileInfo, handleChange }) {
         />
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-purple-300 mb-1">Languages</label>
-        {popularLanguages.map((language) => (
-          <div key={language} className="flex items-center mb-2">
-            <input
-              type="checkbox"
-              value={language}
-              checked={selectedLanguages.includes(language)}
-              onChange={handleCheckboxChange}
-              className="mr-2 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
-            />
-            <label className="text-gray-300">{language}</label>
-          </div>
-        ))}
+      <div className="w-full max-w-md mx-auto mt-8">
+      <label className="block font-semibold mb-2">Languages:</label>
 
-        {selectedLanguages.includes('Other') && (
-          <div className="mt-2">
-            <input
-              type="text"
-              value={customLanguage}
-              onChange={handleCustomLanguageChange}
-              placeholder="Enter custom language"
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
-            />
-            <button
-              type="button"
-              onClick={handleAddCustomLanguage}
-              className="mt-2 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
+      {/* Display selected languages with cross to remove */}
+      <div className="flex flex-wrap gap-2 items-center border p-2 rounded-md cursor-pointer" onClick={toggleDropdown}>
+        {selectedLanguages.length > 0 ? (
+          selectedLanguages.map((language, idx) => (
+            <div
+              key={idx}
+              className="bg-green-200 px-2 py-1 rounded-full flex items-center gap-1"
             >
-              Add Language
-            </button>
-          </div>
+              {language}
+              <button onClick={(e) => { e.stopPropagation(); handleRemoveLanguage(language); }}>
+                &times;
+              </button>
+            </div>
+          ))
+        ) : (
+          <span className="text-gray-500">Select languages...</span>
         )}
       </div>
+
+      {/* Dropdown with checkboxes */}
+      {isDropdownOpen && (
+        <div className="border mt-2 p-2 rounded-md shadow-lg bg-white max-h-48 overflow-y-auto">
+          {availableLanguages.map((language, idx) => (
+            <div key={idx} className="flex items-center space-x-2 mb-1">
+              <input
+                type="checkbox"
+                checked={selectedLanguages.includes(language)}
+                onChange={() => handleLanguageSelect(language)}
+              />
+              <label>{language}</label>
+            </div>
+          ))}
+          {/* "Other" option with input */}
+          <div className="flex items-center space-x-2 mt-2">
+            <input
+              type="checkbox"
+              checked={isOtherChecked}
+              onChange={handleOtherInput}
+            />
+            <label>Other</label>
+            {isOtherChecked && (
+              <input
+                type="text"
+                value={otherLanguage}
+                onChange={handleOtherLanguageInput}
+                className="border rounded-md p-1"
+                placeholder="Enter language"
+              />
+            )}
+          </div>
+        </div>
+      )}
+    </div>
 
       <div>
         <label htmlFor="frameworks" className="block text-sm font-medium text-purple-300 mb-1">
