@@ -2,47 +2,58 @@
 import React, { useState } from 'react';
 
 function ProfileForm({ profileInfo, handleChange }) {
-  const LanguageSelector = () => {
-    const popularLanguages = ['Python', 'C++', 'Java', 'HTML', CSS', 'Bootstrap', 'JavaScript', 'NodeJS', 'ReactJS', 'MongoDB']; 
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Controls dropdown visibility
-    const [selectedLanguages, setSelectedLanguages] = useState([]); // Stores selected languages
-    const [otherLanguage, setOtherLanguage] = useState(""); // Stores custom language input
-    const [isOtherChecked, setIsOtherChecked] = useState(false); // Tracks if "Other" is selected
-  
-    const toggleDropdown = () => {
-      setIsDropdownOpen(!isDropdownOpen);
-    };
-  
-    // Toggle a language from the selection
-    const handleLanguageSelect = (language) => {
-      setSelectedLanguages((prevSelected) =>
-        prevSelected.includes(language) ? prevSelected.filter((lang) => lang !== language) : [...prevSelected, language]
-      );
-    };
-  
-    // Handle "Other" input checkbox and text input
-    const handleOtherInput = (e) => {
-      setIsOtherChecked(!isOtherChecked);
-      if (!isOtherChecked) {
-        setOtherLanguage("");
-      }
-    };
-  
-    // Remove a language from the selected list
-    const handleRemoveLanguage = (language) => {
-      if (language === otherLanguage) {
-        setOtherLanguage("");
-        setIsOtherChecked(false);
-      }
-      setSelectedLanguages((prevSelected) => prevSelected.filter((lang) => lang !== language));
-    };
-  
-    // Handle other language input field
-    const handleOtherLanguageInput = (e) => {
-      setOtherLanguage(e.target.value);
-      if (!selectedLanguages.includes(e.target.value)) {
-        setSelectedLanguages([...selectedLanguages, e.target.value]);
-      }
+  const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [otherLanguage, setOtherLanguage] = useState('');
+  const [isOtherChecked, setIsOtherChecked] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Controls dropdown visibility
+
+  const popularLanguages = ['Python', 'C++', 'Java', 'HTML', 'CSS', 'Bootstrap', 'JavaScript', 'NodeJS', 'ReactJS', 'MongoDB'];
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  // Toggle a language from the selection
+  const handleLanguageSelect = (language) => {
+    setSelectedLanguages((prevSelected) =>
+      prevSelected.includes(language)
+        ? prevSelected.filter((lang) => lang !== language)
+        : [...prevSelected, language]
+    );
+  };
+
+  // Handle "Other" input checkbox and text input
+  const handleOtherInput = () => {
+    setIsOtherChecked(!isOtherChecked);
+    if (!isOtherChecked) {
+      setOtherLanguage('');
+    }
+  };
+
+  // Remove a language from the selected list
+  const handleRemoveLanguage = (language) => {
+    if (language === otherLanguage) {
+      setOtherLanguage('');
+      setIsOtherChecked(false);
+    }
+    setSelectedLanguages((prevSelected) => prevSelected.filter((lang) => lang !== language));
+  };
+
+  // Handle other language input field
+  const handleOtherLanguageInput = (e) => {
+    setOtherLanguage(e.target.value);
+    if (!selectedLanguages.includes(e.target.value)) {
+      setSelectedLanguages([...selectedLanguages, e.target.value]);
+    }
+  };
+
+  // Handle form submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Combine selectedLanguages into profileInfo for form submission
+    const updatedProfileInfo = { ...profileInfo, languages: selectedLanguages };
+    // Perform form submission with updatedProfileInfo
+    console.log(updatedProfileInfo);
   };
 
   return (
@@ -56,7 +67,7 @@ function ProfileForm({ profileInfo, handleChange }) {
           id="name"
           name="name"
           value={profileInfo.name}
-          placeholder='e.g. John Doe'
+          placeholder="e.g. John Doe"
           onChange={handleChange}
           className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
         />
@@ -182,93 +193,64 @@ function ProfileForm({ profileInfo, handleChange }) {
         />
       </div>
 
+      {/* Language selector */}
       <div className="w-full max-w-md mx-auto mt-8">
-      <label className="block font-semibold mb-2">Languages:</label>
+        <label className="block font-semibold mb-2">Languages:</label>
 
-      {/* Display selected languages with cross to remove */}
-      <div className="flex flex-wrap gap-2 items-center border p-2 rounded-md cursor-pointer" onClick={toggleDropdown}>
-        {selectedLanguages.length > 0 ? (
-          selectedLanguages.map((language, idx) => (
-            <div
-              key={idx}
-              className="bg-green-200 px-2 py-1 rounded-full flex items-center gap-1"
-            >
-              {language}
-              <button onClick={(e) => { e.stopPropagation(); handleRemoveLanguage(language); }}>
-                &times;
-              </button>
+        {/* Display selected languages with cross to remove */}
+        <div className="flex flex-wrap gap-2 items-center border p-2 rounded-md cursor-pointer" onClick={toggleDropdown}>
+          {selectedLanguages.length > 0 ? (
+            selectedLanguages.map((language, idx) => (
+              <div
+                key={idx}
+                className="bg-green-200 px-2 py-1 rounded-full flex items-center gap-1"
+              >
+                {language}
+                <button onClick={(e) => { e.stopPropagation(); handleRemoveLanguage(language); }}>
+                  &times;
+                </button>
+              </div>
+            ))
+          ) : (
+            <span className="text-gray-500">Select languages...</span>
+          )}
+        </div>
+
+        {/* Dropdown with checkboxes */}
+        {isDropdownOpen && (
+          <div className="border mt-2 p-2 rounded-md shadow-lg bg-white max-h-48 overflow-y-auto">
+            {popularLanguages.map((language, idx) => (
+              <div key={idx} className="flex items-center space-x-2 mb-1">
+                <input
+                  type="checkbox"
+                  checked={selectedLanguages.includes(language)}
+                  onChange={() => handleLanguageSelect(language)}
+                />
+                <label>{language}</label>
+              </div>
+            ))}
+            {/* "Other" option with input */}
+            <div className="flex items-center space-x-2 mt-2">
+              <input
+                type="checkbox"
+                checked={isOtherChecked}
+                onChange={handleOtherInput}
+              />
+              <label>Other</label>
+              {isOtherChecked && (
+                <input
+                  type="text"
+                  value={otherLanguage}
+                  onChange={handleOtherLanguageInput}
+                  className="border rounded-md p-1"
+                  placeholder="Enter language"
+                />
+              )}
             </div>
-          ))
-        ) : (
-          <span className="text-gray-500">Select languages...</span>
+          </div>
         )}
       </div>
 
-      {/* Dropdown with checkboxes */}
-      {isDropdownOpen && (
-        <div className="border mt-2 p-2 rounded-md shadow-lg bg-white max-h-48 overflow-y-auto">
-          {availableLanguages.map((language, idx) => (
-            <div key={idx} className="flex items-center space-x-2 mb-1">
-              <input
-                type="checkbox"
-                checked={selectedLanguages.includes(language)}
-                onChange={() => handleLanguageSelect(language)}
-              />
-              <label>{language}</label>
-            </div>
-          ))}
-          {/* "Other" option with input */}
-          <div className="flex items-center space-x-2 mt-2">
-            <input
-              type="checkbox"
-              checked={isOtherChecked}
-              onChange={handleOtherInput}
-            />
-            <label>Other</label>
-            {isOtherChecked && (
-              <input
-                type="text"
-                value={otherLanguage}
-                onChange={handleOtherLanguageInput}
-                className="border rounded-md p-1"
-                placeholder="Enter language"
-              />
-            )}
-          </div>
-        </div>
-      )}
-    </div>
-
-      <div>
-        <label htmlFor="frameworks" className="block text-sm font-medium text-purple-300 mb-1">
-          Frameworks
-        </label>
-        <input
-          type="text"
-          id="frameworks"
-          name="frameworks"
-          value={profileInfo.frameworks}
-          onChange={handleChange}
-          placeholder="e.g. react,nodejs,express"
-          className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="tools" className="block text-sm font-medium text-purple-300 mb-1">
-          Tools
-        </label>
-        <input
-          type="text"
-          id="tools"
-          name="tools"
-          value={profileInfo.tools}
-          onChange={handleChange}
-          placeholder="e.g. git,docker,vscode"
-          className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
-        />
-      </div>
-      
       <button
         type="submit"
         className="mt-4 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
