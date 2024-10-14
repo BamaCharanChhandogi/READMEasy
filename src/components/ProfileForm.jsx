@@ -97,7 +97,6 @@ function ProfileForm({ profileInfo, handleChange }) {
         />
       </div>
 
-    <form>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className='col-span-1'>
           <label htmlFor="name" className="block text-sm font-medium text-purple-300 mb-1">
