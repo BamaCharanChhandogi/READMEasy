@@ -245,7 +245,7 @@ function ProfileForm({ profileInfo, handleChange }) {
 
         {/* Dropdown with checkboxes */}
         {isDropdownOpen && (
-          <div className="border mt-2 p-2 rounded-md shadow-lg bg-white max-h-48 overflow-y-auto">
+          <div className="border mt-2 p-2 rounded-md shadow-lg bg-gray-800 max-h-48 overflow-y-auto">
             {popularLanguages.map((language, idx) => (
               <div key={idx} className="flex items-center space-x-2 mb-1">
                 <input
