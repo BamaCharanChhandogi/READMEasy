@@ -63,12 +63,12 @@ function Home() {
                   Edit
                 </button>
               )}
-              <button
+              {!isEditing && (<button
                 onClick={toggleViewMode}
                 className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300"
               >
                 Switch to {viewMode === 'markdown' ? 'Rendered' : 'Markdown'} View
-              </button>
+              </button>)}
             </div>
           </div>
           {isEditing ? (
