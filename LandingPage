@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>README Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon.png"> 
+</head>
+<body>
+
+    <!-- Landing Section -->
+    <section class="landing">
+        <div class="landing-content">
+            <img src="img.png" alt="README" class="mascot">
+            <h1>Welcome to the ReadEase</h1>
+            <p>Create professional and structured README files for your projects with ease</p>
+            <a href="#generator-section" class="start-btn">Get started</a>
+        </div>
+    </section>
+    
+    <!-- Generator Section -->
+    <section id="generator-section" class="generator">
+        <div class="container">
+            <h2>----Generate Your README----</h2>
+            <form id="readmeForm">
+                <div class="form-group">
+                    <label for="projectName">Project Name:</label>
+                    <input type="text" id="projectName" placeholder="Enter your project name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Project Description:</label>
+                    <textarea id="description" placeholder="Enter a short project description" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="installation">Installation Instructions:</label>
+                    <textarea id="installation" placeholder="Enter installation instructions" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="usage">Usage Instructions:</label>
+                    <textarea id="usage" placeholder="Enter usage instructions" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="contribution">Contribution Guidelines (optional):</label>
+                    <textarea id="contribution" placeholder="Enter contribution guidelines"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="license">License Type:</label>
+                    <input type="text" id="license" placeholder="e.g., MIT, GPL" required>
+                </div>
+
+                <button type="submit" class="generate-btn">Generate README</button>
+            </form>
+
+            <h2>Your Generated README</h2>
+            <pre id="output"></pre>
+        </div>
+        
+    </section>
+    <!-- Profile Generator Section -->
+<section id="profile-generator" class="profile-generator">
+    <div class="container">
+        <h2>----Generate Your Profile----</h2>
+        <form id="profileForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" placeholder="Enter your name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="bio">Bio:</label>
+                <textarea id="bio" placeholder="Enter a short bio" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="skills">Skills (comma separated):</label>
+                <input type="text" id="skills" placeholder="e.g., JavaScript, HTML, CSS" required>
+            </div>
+
+            <div class="form-group">
+                <label for="linkedin">LinkedIn Profile URL:</label>
+                <input type="url" id="linkedin" placeholder="Enter your LinkedIn URL" required>
+            </div>
+
+            <button type="submit" class="generate-btn">Generate Profile</button>
+        </form>
+
+        <h2>Your Generated Profile</h2>
+        <pre id="profileOutput"></pre>
+    </div>
+</section>
+
+    <!-- Theme Toggle Switch -->
+    <div class="theme-toggle">
+        <label class="switch">
+            <input type="checkbox" id="themeSwitcher">
+            <span class="slider"></span>
+        </label>
+        <span class="toggle-text"></span>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 README Generator. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
