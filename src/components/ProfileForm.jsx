@@ -230,7 +230,7 @@ function ProfileForm({ profileInfo, handleChange }) {
         <div className="flex flex-wrap gap-2 items-center border p-2 rounded-md cursor-pointer" onClick={toggleDropdown}>
           {selectedLanguages.length > 0 ? (
             selectedLanguages.map((language, idx) => (
-              <div key={idx} className="bg-green-200 px-2 py-1 rounded-full flex items-center gap-1">
+              <div key={idx} className="bg-gray-700 px-2 py-1 rounded-full flex items-center gap-1">
                 {language}
                 <button onClick={(e) => { e.stopPropagation(); handleRemoveLanguage(language); }}>
                   &times;
