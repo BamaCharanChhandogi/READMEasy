@@ -13,6 +13,8 @@ function ProfileForm({ profileInfo, handleChange }) {
   const [portfolio, setPortfolio] = useState(profileInfo.portfolio || '');
   const [githubUsername, setGithubUsername] = useState(profileInfo.githubUsername || '');
 
+  const dropdownRef = useRef(null);
+  
   // State variables for language selection
   const [selectedLanguages, setSelectedLanguages] = useState(profileInfo.languages || []);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -244,7 +246,11 @@ function ProfileForm({ profileInfo, handleChange }) {
 
         {/* Dropdown with checkboxes */}
         {isDropdownOpen && (
-          <div className="border mt-2 p-2 rounded-md shadow-lg bg-gray-800 max-h-48 overflow-y-auto">
+          <div
+            ref={dropdownRef}
+            className="border mt-2 p-2 rounded-md shadow-lg bg-gray-800 max-h-48 overflow-y-auto"
+            style={{ maxHeight: `calc(100vh - ${dropdownRef.current?.offsetTop}px - 20px)` }}
+          >
             {popularLanguages.map((language, idx) => (
               <div key={idx} className="flex items-center space-x-2 mb-1">
                 <input
