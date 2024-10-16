@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { Github } from 'lucide-react';
 import axios from 'axios';
-import { FaStar, FaCodeBranch } from 'react-icons/fa'; // Importing specific icons
 
-const StarForkButton = () => {
-  const [repoData, setRepoData] = useState({ stars: 0, forks: 0 });
+export default function GitHubStarButton() {
+  const [stars, setStars] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchRepoData = async () => {
       try {
         const response = await axios.get('https://api.github.com/repos/BamaCharanChhandogi/READMEasy');
-        setRepoData({
-          stars: response.data.stargazers_count,
-          forks: response.data.forks_count,
-        });
+        setStars(response.data.stargazers_count);
         setLoading(false);
-      } catch (error) {
-        console.error("Error fetching GitHub repo data:", error);
+      } catch (err) {
+        console.error('Error fetching GitHub repo data:', err);
+        setError('Failed to load repository data');
+        setLoading(false);
       }
     };
 
@@ -24,39 +24,36 @@ const StarForkButton = () => {
   }, []);
 
   const handleStarClick = () => {
-    window.location.href = 'https://github.com/BamaCharanChhandogi/READMEasy/stargazers';
+    window.open('https://github.com/BamaCharanChhandogi/READMEasy/stargazers', '_blank');
   };
 
-  const handleForkClick = () => {
-    window.location.href = 'https://github.com/BamaCharanChhandogi/READMEasy/fork';
-  };
+  if (loading) {
+    return <div className="text-center text-gray-500">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center text-red-500">{error}</div>;
+  }
 
   return (
-    <div className="flex flex-col items-center justify-center mt-5 bg-gray-900">
-      {loading ? (
-        <p className="text-white">Loading...</p>
-      ) : (
-        <div className="flex space-x-4">
-          <button 
-            onClick={handleStarClick} 
-            className="bg-gradient-to-l from-purple-400 to-purple-600 bg-opacity-60 text-white py-2 px-4 rounded-lg shadow-lg backdrop-blur-lg border border-purple-700 
-              hover:bg-opacity-80 hover:scale-105 hover:rotate-1 transition-all duration-300 ease-in-out flex items-center"
-          >
-            <FaStar className="text-2xl text-yellow-300 mr-1" />
-            <span className="text-2xl font-extrabold text-yellow-300">Star {repoData.stars}</span>
-          </button>
-          <button 
-            onClick={handleForkClick} 
-            className="bg-gradient-to-l from-purple-400 to-purple-600 bg-opacity-60 text-white py-2 px-4 rounded-lg shadow-lg backdrop-blur-lg border border-purple-700 
-              hover:bg-opacity-80 hover:scale-105 hover:-rotate-1 transition-all duration-300 ease-in-out flex items-center"
-          >
-            <FaCodeBranch className="text-2xl text-green-300 mr-1" />
-            <span className="text-2xl font-extrabold text-green-300">Fork {repoData.forks}</span>
-          </button>
+    <div className="flex justify-center">
+      <button
+        onClick={handleStarClick}
+        className="flex items-center bg-opacity-50 bg-[#21262d] backdrop-blur-lg text-white text-sm font-semibold  rounded-xl shadow-md hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-1 hover:bg-opacity-75 hover:border border-purple-400"
+        style={{
+          border: '1px solid rgba(192, 132, 252, 1)',
+          boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+        }}
+        
+      >
+        <div className="flex items-center space-x-2 px-3 py-1 border-r border-gray-600">
+          <Github size={16} color='#ffdf00' />
+          <span>Star</span>
         </div>
-      )}
+        <div className="px-3 py-1">
+          {stars.toLocaleString()}
+        </div>
+      </button>
     </div>
   );
-};
-
-export default StarForkButton;
+}

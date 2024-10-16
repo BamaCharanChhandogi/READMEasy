@@ -44,18 +44,20 @@ function App() {
                 <NavLink to="/" className={getNavLinkClass}>Home</NavLink>
                 <NavLink to="/profileGenerator" className={getNavLinkClass}>Profile Generator</NavLink>
               </div>
-              <a 
+              {/* <a 
                 href="https://github.com/BamaCharanChhandogi/READMEasy"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-purple-400 transition duration-300"
               >
                 <FaGithub className="w-7 h-7" />
-              </a>
+              </a> */}
+               <div className="hidden md:block"> 
+                <StarForkButton />
+              </div>
             </div>
           </div>
         </nav>
-        <StarForkButton />
         <div className="container mx-auto px-4 py-12">
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
