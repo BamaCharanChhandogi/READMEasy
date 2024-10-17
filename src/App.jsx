@@ -3,9 +3,11 @@ import { BrowserRouter as Router, Route, Routes, Link, NavLink } from 'react-rou
 import { FaGithub, FaChevronUp } from "react-icons/fa";
 
 const Home = lazy(() => import('./components/Home'));
+const FAQ = lazy(() => import('./components/FAQ'));
 const GitHubProfileGenerator = lazy(() => import('./hooks/GitHubProfileGenerator'));
 
 const MemoizedHome = memo(Home);
+const MemoizedFAQ = memo(FAQ);
 const MemoizedGitHubProfileGenerator = memo(GitHubProfileGenerator);
 
 const getNavLinkClass = ({ isActive }) => 
@@ -40,6 +42,7 @@ function App() {
             <div className="flex items-center space-x-8">
               <div className="flex space-x-6">
                 <NavLink to="/" className={getNavLinkClass}>Home</NavLink>
+                <NavLink to="/faq" className={getNavLinkClass}>FAQ</NavLink>
                 <NavLink to="/profileGenerator" className={getNavLinkClass}>Profile Generator</NavLink>
               </div>
               <a 
@@ -57,6 +60,7 @@ function App() {
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
               <Route path="/" element={<MemoizedHome />} />
+              <Route path="/faq" element={<MemoizedFAQ />} />
               <Route path="/profileGenerator" element={<MemoizedGitHubProfileGenerator />} />
             </Routes>
           </Suspense>
