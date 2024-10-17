@@ -2,6 +2,8 @@ import React, { Suspense, lazy, memo, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, NavLink } from 'react-router-dom';
 import { FaGithub, FaChevronUp } from "react-icons/fa";
 import Navbar from './components/Navbar';
+
+
 const Home = lazy(() => import('./components/Home'));
 const GitHubProfileGenerator = lazy(() => import('./hooks/GitHubProfileGenerator'));
 
