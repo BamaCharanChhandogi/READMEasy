@@ -3,7 +3,6 @@ import InputForm from './InputForm';
 import OutputDisplay from './OutputDisplay';
 import EditableOutput from './EditableOutput';
 import useReadmeGenerator from '../hooks/useReadmeGenerator';
-import FAQ from './FAQ';
 
 function Home() {
   const [projectInfo, setProjectInfo] = useState({
