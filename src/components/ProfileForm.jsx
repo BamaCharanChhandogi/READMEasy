@@ -248,7 +248,7 @@ function ProfileForm({ profileInfo, handleChange }) {
         {isDropdownOpen && (
           <div
             ref={dropdownRef}
-            className="border mt-2 p-2 rounded-md shadow-lg bg-gray-800 max-h-48 overflow-y-auto"
+            className="border mt-2 p-0 rounded-md shadow-lg bg-gray-800 max-h-48 overflow-y-auto"
             style={{ maxHeight: `calc(100vh - ${dropdownRef.current?.offsetTop}px - 20px)` }}
           >
             {popularLanguages.map((language, idx) => (
