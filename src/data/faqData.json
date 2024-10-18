@@ -1,0 +1,23 @@
+[
+    {
+      "question": "What is READMEasy?",
+      "answer": "READMEasy is a user-friendly web platform that empowers you to generate comprehensive and engaging README files for your software projects. Powered by advanced AI models, ReadMeister effortlessly tailors your README content based on your project's unique details."
+    },
+    {
+      "question": "How do I get started?",
+      "answer": "To get started, simply fill out the README Generator form and integrate it into your project."
+    },
+    {
+      "question": "How do I contribute to this project?",
+      "answer": "We welcome contributions from the community! You can contribute by reporting bugs, suggesting features, or submitting pull requests on our GitHub repository. Join our community discussions and help us improve READMEasy together!"
+    },
+    {
+      "question": "Is READMEasy free to use?",
+      "answer": "Yes, READMEasy is completely free for personal and open-source projects. We also offer premium features for enterprise users requiring advanced functionality."
+    },
+    {
+      "question": "Can I customize the output of the README file?",
+      "answer": "Absolutely! READMEasy allows you to customize various sections of the generated README, including project descriptions, usage instructions, and more, so it perfectly fits your needs."
+    }
+  ]
+  
