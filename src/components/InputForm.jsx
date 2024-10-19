@@ -107,7 +107,7 @@ function InputForm({ onSubmit }) {
                 Choose a stack
               </option>
               {Object.keys(stacks).map((stack) => (
-                <option key={stack} value={stack} className="text-gray-700">
+                <option key={stack} value={stack} className="text-white-700">
                   {stack.charAt(0).toUpperCase() + stack.slice(1)}
                 </option>
               ))}
@@ -115,7 +115,7 @@ function InputForm({ onSubmit }) {
             <div className="absolute right-3 top-2.5 pointer-events-none">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-gray-300"
+                className="h-5 w-5 text-white-300"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
