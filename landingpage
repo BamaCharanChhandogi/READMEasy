@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>README and Profile Generator</title>
+    <link rel="icon" href="favicon.png" type="favicon">
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* Color Variables for Light and Dark Mode */
+        :root {
+            --bg-color: #f0f4f8;
+            --text-color: #333;
+            --button-bg: #6b8efd;
+            --button-text: #fff;
+            --footer-bg: #6b8efd;
+            --footer-text: #fff;
+            --pre-bg: #1e272e;
+            --pre-text: #fff;
+        }
+
+        body.dark {
+            --bg-color: #1c1c1e;
+            --text-color: #f4f4f5;
+            --button-bg: #444;
+            --button-text: #f4f4f5;
+            --footer-bg: #444;
+            --footer-text: #f4f4f5;
+            --pre-bg: #2e2e2e;
+            --pre-text: #f4f4f5;
+        }
+
+        /* Theme Toggle Switch */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 10px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #6b8efd;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .toggle-text {
+            margin-left: 10px;
+            font-size: 18px;
+        }
+
+        /* Landing Page Styling */
+        .landing {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: linear-gradient(120deg, #6b8efd, #88e0ef);
+            color: white;
+            text-align: center;
+        }
+
+        .mascot {
+            width: 350px;
+            height: auto;
+            max-width: 80%;
+        }
+
+        .landing-content h1 {
+            font-size: 48px;
+            margin-bottom: 30px;
+            margin-top: 10px;
+        }
+
+        .landing-content p {
+            font-size: 20px;
+            margin-bottom: 50px;
+        }
+
+        .start-btn {
+            padding: 15px 30px;
+            background-color: white;
+            color: #6b8efd;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .start-btn:hover {
+            background-color: #88e0ef;
+            color: white;
+        }
+
+        /* Generator Section */
+        .generator {
+            padding: 40px 20px;
+            background-color: var(--bg-color);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--text-color);
+            margin-bottom: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .generate-btn:hover {
+            background-color: #88e0ef;
+            color: white;
+        }
+
+        /* Output Section */
+        pre {
+            background-color: var(--pre-bg);
+            color: var(--pre-text);
+            padding: 20px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-top: 20px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Landing Page -->
+    <section class="landing">
+        <div class="landing-content">
+            <img src="img.png" alt="Mascot" class="mascot">
+            <h1>Welcome to the READMEase</h1>
+            <p>Create professional README & Profile files for your projects in no time</p>
+            <a href="#generator" class="start-btn">Get Started</a>
+        </div>
+    </section>
+
+    <!-- README Generator Section -->
+    <section id="generator" class="generator">
+        <div class="container">
+            <h2>------Generate Your README------</h2>
+            <form id="readmeForm">
+                <div class="form-group">
+                    <label for="projectName">Project Name</label>
+                    <input type="text" id="projectName" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="installation">Installation Instructions</label>
+                    <textarea id="installation" rows="5"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="usage">Usage</label>
+                    <textarea id="usage" rows="5"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="contribution">Contribution Guidelines</label>
+                    <textarea id="contribution" rows="5"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="license">License</label>
+                    <input type="text" id="license" required>
+                </div>
+                <button type="submit" class="generate-btn">Generate README</button>
+            </form>
+            <pre id="readmeOutput"></pre>
+        </div>
+    </section>
+
+    <!-- Profile Generator Section -->
+    <section id="generator" class="generator">
+        <div class="container">
+            <h2>------Generate Your Profile------</h2>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="profileName">Name</label>
+                    <input type="text" id="profileName" required>
+                </div>
+                <div class="form-group">
+                    <label for="profileDescription">Description</label>
+                    <textarea id="profileDescription" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="skills">Skills</label>
+                    <textarea id="skills" rows="5"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="projects">Projects</label>
+                    <textarea id="projects" rows="5"></textarea>
+                </div>
+                <button type="submit" class="generate-btn">Generate Profile</button>
+            </form>
+            <pre id="profileOutput"></pre>
+        </div>
+    </section>
+
+    <!-- Theme Toggle Switch -->
+    <div class="theme-toggle">
+        <label class="switch">
+            <input type="checkbox" id="themeSwitcher">
+            <span class="slider"></span>
+        </label>
+        <span class="toggle-text"></span>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2024 README and Profile Generator
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeSwitcher = document.getElementById('themeSwitcher');
+        const body = document.body;
+
+        themeSwitcher.addEventListener('change', function() {
+            if (this.checked) {
+                body.classList.add('dark');
+            } else {
+                body.classList.remove('dark');
+            }
+        });
+
+        // README Form submission and content generation
+        document.getElementById('readmeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Collect form values
+            const projectName = document.getElementById('projectName').value;
+            const description = document.getElementById('description').value;
+            const installation = document.getElementById('installation').value;
+            const usage = document.getElementById('usage').value;
+            const contribution = document.getElementById('contribution').value;
+            const license = document.getElementById('license').value;
+
+            // Generate README content
+            let readmeContent = `# ${projectName}\n\n## Description\n${description}\n\n## Installation\n\`\`\`\n${installation}\n\`\`\`\n\n## Usage\n\`\`\`\n${usage}\n\`\`\`\n\n`;
+
+            if (contribution) {
+                readmeContent += `## Contribution Guidelines\n${contribution}\n\n`;
+            }
+
+            readmeContent += `## License\nThis project is licensed under the ${license} License.`;
+
+            // Display the generated README content
+            document.getElementById('readmeOutput').textContent = readmeContent;
+        });
+
+        // Profile Form submission and content generation
+        document.getElementById('profileForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Collect form values
+            const profileName = document.getElementById('profileName').value;
+            const profileDescription = document.getElementById('profileDescription').value;
+            const skills = document.getElementById('skills').value;
+            const projects = document.getElementById('projects').value;
+
+            // Generate profile content
+            let profileContent = `# ${profileName}\n\n## Description\n${profileDescription}\n\n`;
+
+            if (skills) {
+                profileContent += `## Skills\n${skills}\n\n`;
+            }
+
+            if (projects) {
+                profileContent += `## Projects\n${projects}\n\n`;
+            }
+
+            // Display the generated profile content
+            document.getElementById('profileOutput').textContent = profileContent;
+        });
+    </script>
+</body>
+</html>
