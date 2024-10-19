@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { FaGithub, FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
+import StarForkButton from './StarFork';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,14 +44,9 @@ export default function Navbar() {
               Profile Generator
             </NavLink>
           </div>
-          <a 
-            href="https://github.com/BamaCharanChhandogi/READMEasy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-300 hover:text-purple-400 transition duration-300"
-          >
-            <FaGithub className="w-7 h-7" />
-          </a>
+          <div className="hidden md:block"> 
+                <StarForkButton />
+              </div>
         </div>
       </div>
 
