@@ -36,20 +36,20 @@ export default function Navbar() {
               Home
             </NavLink>
             <NavLink 
-              to="/faq" 
-              className={({ isActive }) => 
-                isActive ? "text-purple-400 font-semibold" : "text-gray-300 hover:text-purple-400 transition duration-300"
-              }
-            >
-              FAQ
-            </NavLink>
-            <NavLink 
               to="/profileGenerator" 
               className={({ isActive }) => 
                 isActive ? "text-purple-400 font-semibold" : "text-gray-300 hover:text-purple-400 transition duration-300"
               }
             >
               Profile Generator
+            </NavLink>
+            <NavLink 
+              to="/faq" 
+              className={({ isActive }) => 
+                isActive ? "text-purple-400 font-semibold" : "text-gray-300 hover:text-purple-400 transition duration-300"
+              }
+            >
+              FAQ
             </NavLink>
           </div>
           <div className="hidden md:block"> 
