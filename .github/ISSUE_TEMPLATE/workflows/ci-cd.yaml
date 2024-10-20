@@ -30,12 +30,12 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-node-${{ matrix.node-version }}
 
       - name: Install Frontend Dependencies
-        run: npm install
+        run: npm i # Prefer npm ci for clean installs in CI environments
 
       - name: Lint Frontend Code
         run: npm run lint
@@ -61,12 +61,12 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-16-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-node-16
 
       - name: Install Frontend Dependencies
-        run: npm install
+        run: npm i
 
       - name: Build Frontend with Vite
         run: npm run build
@@ -92,12 +92,12 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-16-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-node-16
 
       - name: Install Frontend Dependencies
-        run: npm install --production
+        run: npm i
 
       # Deploy to Vercel for Production
       - name: Deploy Frontend to Vercel
