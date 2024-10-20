@@ -1,0 +1,107 @@
+name: CI/CD Workflow for REAMEasy ⚡
+
+on:
+  push:
+    branches:
+      - main
+      - "feature/**"
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # Job 1: Set up Node.js and run tests
+  test:
+    name: Run Tests and Linting
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x] # Testing on multiple Node versions
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install Frontend Dependencies
+        run: npm install
+
+      - name: Lint Frontend Code
+        run: npm run lint
+
+      - name: Run Frontend Tests
+        run: npm run test -- --coverage
+
+  # Job 2: Build the Vite app and deploy preview to Vercel
+  build-and-preview:
+    name: Build and Deploy Preview to Vercel
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install Frontend Dependencies
+        run: npm install
+
+      - name: Build Frontend with Vite
+        run: npm run build
+
+      # Deploy to Vercel for preview
+      - name: Deploy Preview to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          npx vercel --prebuilt --token=$VERCEL_TOKEN --confirm --scope=your-username --project=your-project
+
+  # Job 3: Deploy to Production (only on main branch push)
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: build-and-preview
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install Frontend Dependencies
+        run: npm install --production
+
+      # Deploy to Vercel for Production
+      - name: Deploy Frontend to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          npx vercel --prod --token=$VERCEL_TOKEN --confirm --scope=your-username --project=your-project
