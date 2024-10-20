@@ -5,9 +5,11 @@ import Navbar from './components/Navbar';
 
 
 const Home = lazy(() => import('./components/Home'));
+const FAQ = lazy(() => import('./components/FAQ'));
 const GitHubProfileGenerator = lazy(() => import('./hooks/GitHubProfileGenerator'));
 
 const MemoizedHome = memo(Home);
+const MemoizedFAQ = memo(FAQ);
 const MemoizedGitHubProfileGenerator = memo(GitHubProfileGenerator);
 
 const getNavLinkClass = ({ isActive }) => 
@@ -39,6 +41,7 @@ function App() {
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
               <Route path="/" element={<MemoizedHome />} />
+              <Route path="/faq" element={<MemoizedFAQ />} />
               <Route path="/profileGenerator" element={<MemoizedGitHubProfileGenerator />} />
             </Routes>
           </Suspense>
