@@ -10,7 +10,12 @@ export default function GitHubStarButton() {
   useEffect(() => {
     const fetchRepoData = async () => {
       try {
-        const response = await axios.get('https://api.github.com/repos/BamaCharanChhandogi/READMEasy');
+        const tokenId=process.env.VITE_GITHUB_TOKEN;
+        const response = await axios.get('https://api.github.com/repos/BamaCharanChhandogi/READMEasy',{
+          headers: {
+            Authorization: `token ${tokenId}`,
+          },
+        });
         setStars(response.data.stargazers_count);
         setLoading(false);
       } catch (err) {
