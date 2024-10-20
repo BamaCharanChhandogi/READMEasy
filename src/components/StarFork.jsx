@@ -10,7 +10,7 @@ export default function GitHubStarButton() {
   useEffect(() => {
     const fetchRepoData = async () => {
       try {
-        const tokenId=process.env.VITE_GITHUB_TOKEN;
+        const tokenId=import.meta.env.VITE_GITHUB_TOKEN;
         const response = await axios.get('https://api.github.com/repos/BamaCharanChhandogi/READMEasy',{
           headers: {
             Authorization: `token ${tokenId}`,
