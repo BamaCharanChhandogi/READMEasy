@@ -27,6 +27,7 @@ function GitHubProfileGenerator() {
   const [copied, setCopied] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [viewMode, setViewMode] = useState('markdown');
+  const [buttonText,setButtonText] = useState('Generate Profile README')
 
   const handleChange = (e) => {
     setProfileInfo({ ...profileInfo, [e.target.name]: e.target.value });
@@ -130,7 +131,7 @@ ${
   Please fill in the template with the provided information. Do not add any additional sections. Stick strictly to the provided template structure.`;
 
   const result = await model.generateContent(prompt);
-  const response = await result.response;
+  const response = result.response;
   setGeneratedProfile(response.text());
   setIsEditing(false);
 } catch (error) {
@@ -179,12 +180,15 @@ return (
     onClick={generateProfile}
     className="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition duration-300"
   >
-    Generate Profile README
+    {buttonText}
   </button>
   {isLoading && (
-    <p className="text-purple-400 mt-4">Generating profile README...</p>
+    setButtonText('Generating Profile README...')
   )}
   {error && <p className="text-red-400 mt-4">{error}</p>}
+  {generatedProfile && (
+    setButtonText('Generate Profile README')
+  )}
   {generatedProfile && (
     <div className="mt-8 relative">
       <div className="flex justify-between items-center mb-4">
