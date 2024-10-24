@@ -4,6 +4,11 @@
 
 READMEasy is a user-friendly web platform that empowers you to generate comprehensive and engaging README files for your software projects. Powered by advanced AI models, ReadMeister effortlessly tailors your README content based on your project's unique details.
 
+## 📈 GitHub Repository Stats
+| 🌟 **Stars** | 🍴 **Forks** | 🐛 **Issues** | 🔔 **Open PRs** | 🔕 **Closed PRs** | 🛠️ **Languages** | ✅ **Contributors** |
+|--------------|--------------|---------------|-----------------|------------------|------------------|------------------|
+| ![GitHub stars](https://img.shields.io/github/stars/BamaCharanChhandogi/READMEasy) | ![forks](https://img.shields.io/github/forks/BamaCharanChhandogi/READMEasy) | ![issues](https://img.shields.io/github/issues/BamaCharanChhandogi/READMEasy?color=32CD32) | ![pull requests](https://img.shields.io/github/issues-pr/BamaCharanChhandogi/READMEasy?color=FFFF8F) | ![Closed PRs](https://img.shields.io/github/issues-pr-closed/BamaCharanChhandogi/READMEasy?color=20B2AA) | ![Languages](https://img.shields.io/github/languages/count/BamaCharanChhandogi/READMEasy?color=20B2AA) | ![Contributors](https://img.shields.io/github/contributors/BamaCharanChhandogi/READMEasy?color=00FA9A) |
+
 ## Features
 
 - **AI-Powered Content Generation**: Unleash the power of AI to create compelling README content that showcases your project's value and functionality.
