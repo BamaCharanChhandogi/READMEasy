@@ -1,0 +1,25 @@
+.nav-link {
+    position: relative;
+    padding-bottom: 2px; /* Adjust this to create space for the underline */
+    transition: color 0.3s ease;
+  }
+  
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px; /* Thickness of the underline */
+    left: 0;
+    bottom: 0;
+    background-color: #a855f7; /* Purple color for the underline */
+    transition: width 0.3s ease;
+  }
+  
+  .nav-link:hover::after {
+    width: 100%; /* Animate underline on hover */
+  }
+  
+  .underline-active::after {
+    width: 100%; /* Keep underline for active nav item */
+  }
+  

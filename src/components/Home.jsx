@@ -37,6 +37,7 @@ const Home = () => {
           </li>
         </ol>
       </div>
+
       
       <h2 className="text-3xl font-semibold text-gray-800 mt-8 mb-4 animate-fadeIn">
         Key Features of READMEasy
@@ -63,6 +64,50 @@ const Home = () => {
         Happy coding! 🚀
       </p>
     </div>
+
+      {isLoading && (
+        <div className="text-center my-8">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-500"></div>
+          <p className="mt-2 text-purple-400">Generating README...</p>
+        </div>
+      )}
+      {error && <p className="text-red-400 text-center my-4 bg-red-900 py-2 px-4 rounded">{error}</p>}
+      {(formattedReadme || editedReadme) && (
+        <div className="bg-gray-800 rounded-lg shadow-lg p-8 mt-8">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-3xl font-semibold text-purple-400">Generated README</h2>
+            <div className="space-x-4">
+              {!isEditing && (
+                <button
+                  onClick={handleStartEditing}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+                >
+                  Edit
+                </button>
+              )}
+              {!isEditing && (<button
+                onClick={toggleViewMode}
+                className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+              >
+                Switch to {viewMode === 'markdown' ? 'Rendered' : 'Markdown'} View
+              </button>)}
+            </div>
+          </div>
+          {isEditing ? (
+            <EditableOutput 
+              content={editedReadme || formattedReadme} 
+              onSave={handleSaveEdit} 
+            />
+          ) : (
+            <OutputDisplay 
+              content={editedReadme || formattedReadme} 
+              viewMode={viewMode} 
+            />
+          )}
+        </div>
+      )}
+    </>
+
   );
 };
 

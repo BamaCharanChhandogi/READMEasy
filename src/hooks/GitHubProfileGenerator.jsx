@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import ProfileForm from "../components/ProfileForm";
+import EditableOutput from "../components/EditableOutput";
+import OutputDisplay from "../components/OutputDisplay";
 
 function GitHubProfileGenerator() {
   const [profileInfo, setProfileInfo] = useState({
@@ -23,12 +25,15 @@ function GitHubProfileGenerator() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [viewMode, setViewMode] = useState('markdown');
 
   const handleChange = (e) => {
     setProfileInfo({ ...profileInfo, [e.target.name]: e.target.value });
   };
 
   const generateProfile = async () => {
+    setGeneratedProfile("");
     setIsLoading(true);
     setError(null);
 
@@ -49,11 +54,11 @@ function GitHubProfileGenerator() {
 <img align="right" src="https://visitor-badge.laobi.icu/badge?page_id=${
         profileInfo.githubUsername
       }.${profileInfo.githubUsername}" />
-<h1 align="center">
+<div align="center">
   <img src="https://readme-typing-svg.herokuapp.com/?font=Righteous&size=35&center=true&vCenter=true&width=500&height=70&duration=4000&lines=Hi+There!+👋;I'm+${encodeURIComponent(
     profileInfo.name
   )}!;" />
-</h1>
+</div>
 <h3 align="center">${profileInfo.title}</h3>
 <br/>
 <div align="center">
@@ -124,23 +129,23 @@ ${
   
   Please fill in the template with the provided information. Do not add any additional sections. Stick strictly to the provided template structure.`;
 
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      setGeneratedProfile(response.text());
-    } catch (error) {
-      setError("Error generating profile README: " + error.message);
-      console.error("Error generating profile README:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const result = await model.generateContent(prompt);
+  const response = await result.response;
+  setGeneratedProfile(response.text());
+  setIsEditing(false);
+} catch (error) {
+  setError("Error generating profile README: " + error.message);
+  console.error("Error generating profile README:", error);
+} finally {
+  setIsLoading(false);
+}
+};
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(generatedProfile).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  };
+const handleSaveEdit = (newContent) => {
+setGeneratedProfile(newContent);
+setIsEditing(false);
+};
+
 
   return (
     <div className="bg-white rounded-lg shadow-md p-8 mb-8">
@@ -155,6 +160,23 @@ ${
     <label
       htmlFor="hasQuineAccount"
       className="text-sm font-medium text-gray-700 mr-2"
+
+const toggleViewMode = () => {
+setViewMode(prevMode => prevMode === 'markdown' ? 'rendered' : 'markdown');
+};
+
+return (
+<div className="bg-gray-800 rounded-lg shadow-lg p-8 mb-8">
+  <h2 className="text-2xl font-bold text-purple-400 mb-7 inline-block relative overflow-hidden group">
+    GitHub Profile README Generator
+    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-purple-400 to-pink-500 transform origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></span>
+  </h2>
+  <ProfileForm profileInfo={profileInfo} handleChange={handleChange} />
+  <div className="flex items-center my-5">
+    <label
+      htmlFor="hasQuineAccount"
+      className="text-sm font-medium text-purple-300 mr-2"
+
     >
       Do you have a Quine account? (for dependencies graph)
     </label>
@@ -162,12 +184,17 @@ ${
       id="hasQuineAccount"
       value={hasQuineAccount ? "yes" : "no"}
       onChange={(e) => setHasQuineAccount(e.target.value === "yes")}
+
       className="bg-gray-100 border border-gray-300 text-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 px-2 py-1 transition duration-150 ease-in-out hover:bg-gray-200"
+
+      className="bg-gray-700 border border-gray-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 px-2 py-1"
+
     >
       <option value="no">No</option>
       <option value="yes">Yes</option>
     </select>
   </div>
+
 
       <button
         type="button"
@@ -196,9 +223,58 @@ ${
        </pre>
      </div>
      
+
+  <button
+    type="button"
+    onClick={generateProfile}
+    className="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition duration-300"
+  >
+    Generate Profile README
+  </button>
+  {isLoading && (
+    <p className="text-purple-400 mt-4">Generating profile README...</p>
+  )}
+  {error && <p className="text-red-400 mt-4">{error}</p>}
+  {generatedProfile && (
+    <div className="mt-8 relative">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-xl font-bold text-purple-400">
+          Generated Profile README
+        </h3>
+        <div className="space-x-4">
+          {!isEditing && (
+            <button
+              onClick={() => setIsEditing(true)}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+            >
+              Edit
+            </button>
+          )}
+          {!isEditing && (<button
+            onClick={toggleViewMode}
+            className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+          >
+            Switch to {viewMode === 'markdown' ? 'Rendered' : 'Markdown'} View
+          </button>)}
+        </div>
+      </div>
+      {isEditing ? (
+        <EditableOutput 
+          content={generatedProfile} 
+          onSave={handleSaveEdit} 
+        />
+      ) : (
+        <OutputDisplay 
+          content={generatedProfile} 
+          viewMode={viewMode} 
+        />
+
       )}
     </div>
-  );
+  )}
+</div>
+);
 }
 
 export default GitHubProfileGenerator;
+
