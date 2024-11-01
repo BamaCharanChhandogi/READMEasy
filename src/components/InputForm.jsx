@@ -141,7 +141,7 @@ function InputForm({ onSubmit }) {
 
       {Object.entries(projectInfo).map(([key, value]) => (
         <div key={key}>
-          <label htmlFor={key} className="block text-sm font-medium text-purple-300 mb-1 capitalize">
+          <label htmlFor={key} className="block text-sm font-medium text-gray-700 mb-1 capitalize">
             {key.replace(/([A-Z])/g, ' $1').trim()} {key !== 'projectName' && key !== 'description' ? '(Optional)' : ''}
           </label>
           {key === 'description' || key === 'features' || key === 'installation' || key === 'usage' || key === 'contributing' ? (
@@ -151,7 +151,11 @@ function InputForm({ onSubmit }) {
               value={value}
               onChange={handleChange}
               placeholder={`Enter ${key}`}
+
+              className="w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 placeholder-gray-500"
+
               className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400 resize-vertical"
+
               rows="4"
             />
           ) : (
@@ -162,7 +166,7 @@ function InputForm({ onSubmit }) {
               value={value}
               onChange={handleChange}
               placeholder={`Enter ${key}`}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
+              className="w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 placeholder-gray-500"
             />
           )}
           {errors[key] && <p className="text-red-500 text-sm mt-1">{errors[key]}</p>}
@@ -170,7 +174,7 @@ function InputForm({ onSubmit }) {
       ))}
       <button
         type="submit"
-        className="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition duration-300"
+        className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300"
       >
         Generate README
       </button>

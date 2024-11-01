@@ -106,11 +106,15 @@ function OutputDisplay({ content, viewMode }) {
           )}
         </button>
       </div>
+
+      <div className={`bg-black p-6 rounded-lg ${viewMode === 'rendered' ? 'prose prose-invert max-w-none' : ''}`}>
+
       <div className={`bg-gray-800 p-6 rounded-lg shadow-md ${
         viewMode === 'rendered' 
           ? 'prose prose-invert prose-headings:text-gray-100 prose-a:text-blue-400 prose-code:text-pink-300 prose-pre:bg-gray-900 prose-pre:p-0 prose-pre:my-0 max-w-none'
           : ''
       }`}>
+
         {viewMode === 'markdown' ? (
           <pre className="whitespace-pre-wrap text-gray-300 font-mono text-sm overflow-x-auto">
             {content}
