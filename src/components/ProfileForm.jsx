@@ -152,11 +152,10 @@ function ProfileForm({ profileInfo, handleChange }) {
             value={profileInfo.languages}
             onChange={handleChange}
             placeholder="e.g. javascript,python,java"
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
-            rows = "3"
+            className="w-full h-20 px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400 resize-none"
           />
         </div>
-        
+
         <div className='col-span-1'>
           <label htmlFor="frameworks" className="block text-sm font-medium text-purple-300 mb-1">
             Frameworks
@@ -167,8 +166,7 @@ function ProfileForm({ profileInfo, handleChange }) {
             value={profileInfo.frameworks}
             onChange={handleChange}
             placeholder="e.g. react,nodejs,express"
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
-            rows= "3"
+            className="w-full h-20 px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400 resize-none"
           />
         </div>
 
@@ -182,8 +180,7 @@ function ProfileForm({ profileInfo, handleChange }) {
             value={profileInfo.tools}
             onChange={handleChange}
             placeholder="e.g. git,docker,vscode"
-            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
-            rows = "3"
+            className="w-full h-20 px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400 resize-none"
           />
         </div>
       </div>

@@ -128,7 +128,7 @@ function InputForm({ onSubmit }) {
             </div>
           </div>
         </div>
-    
+
         <button
           type="button"
           onClick={handlePreFill}
@@ -151,7 +151,7 @@ function InputForm({ onSubmit }) {
               value={value}
               onChange={handleChange}
               placeholder={`Enter ${key}`}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400 resize-vertical"
+              className="w-full h-28 px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400 resize-none"
               rows="4"
             />
           ) : (
@@ -168,6 +168,7 @@ function InputForm({ onSubmit }) {
           {errors[key] && <p className="text-red-500 text-sm mt-1">{errors[key]}</p>}
         </div>
       ))}
+
       <button
         type="submit"
         className="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition duration-300"
