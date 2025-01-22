@@ -1,0 +1,36 @@
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Copy Files to EC2
+        run: |
+          scp -i ~/.ssh/id_rsa -r * ec2-user@${{ secrets.EC2_HOST }}:/home/ec2-user/app
+
+      - name: Deploy on EC2
+        run: |
+          ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+            cd /home/ec2-user/app
+            sudo docker stop my-react-app || true
+            sudo docker rm my-react-app || true
+            sudo docker rmi my-react-app || true
+            sudo docker build -t my-react-app .
+            sudo docker run -d -p 80:80 --name my-react-app my-react-app
+          EOF
